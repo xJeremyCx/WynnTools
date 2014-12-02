@@ -6,105 +6,108 @@ if(!isset($_SESSION['username']))
     ?>
     <!DOCTYPE html>
     <html lang="en">
-            <head>
-                <noscript>
-                    <meta http-equiv="refresh" content="0; url=http://wynn.jeremycheong.com/noscript.php">
-                </noscript>
-                <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>WynnTools</title>
-                <link rel="icon" type="image/png" href="favicon.png">
-                <link href="css/bootstrap.min.css" rel="stylesheet">
-                <link href="css/bootstrap-theme.min.css" rel="stylesheet">
-            </head>
+        <head>
+            <noscript>
+                <meta http-equiv="refresh" content="0; url=http://wynn.jeremycheong.com/noscript.php">
+            </noscript>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>WynnTools</title>
+            <link rel="icon" type="image/png" href="favicon.png">
+            <link href="css/bootstrap.min.css" rel="stylesheet">
+            <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+        </head>
 
-            <body>
-                <div class="container-full text-center">
-                    <div class="backDefault1">
-                        <div id="backdefault">
-                            <h1 class="page-header text-white margin-top">Welcome to WynnTools</h1>
-                            <h3 class="text-white text-bold">WynnTools is a collection of tools for Wynncraft. You can use this application to check your stats, find who is online in which server, and more!</h3>
-                            <br>
-                            <h3 class="text-white text-bold" id="m">Type In Your Username To Continue</h3>
-                            <input type="text" class="form-control input-large col-centered" id="name" data-toggle="tooltip" data-placement="top" title="Type your Minecraft username here!">
-                            <br>
-                            <button onclick="login()" type="button" id="login" class="btn btn-primary btn-lg col-centered">Continue</button>
-                            <br>
+        <body>
+            <div class="container-full text-center">
+                <div class="backDefault1">
+                    <div id="backdefault">
+                        <h1 class="page-header text-white margin-top">Welcome to WynnTools</h1>
+                        <h3 class="text-white text-bold">WynnTools is a collection of tools for Wynncraft. You can use this application to check your stats, find who is online in which server, and more!</h3>
+                        <br>
+                        <h3 class="text-white text-bold" id="m">Type In Your Username To Continue</h3>
+                        <input type="text" class="form-control input-large col-centered" id="name" data-toggle="tooltip" data-placement="top" title="Type your Minecraft username here!">
+                        <br>
+                        <button onclick="login()" type="button" id="login" class="btn btn-primary btn-lg col-centered">Continue</button>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="model" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title text-center">Unable To Login</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">The username you entered is invalid or never joined Wynncraft before.</p>
+                            <p class="text-center">Please try again.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Dismiss</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="modal fade" id="model" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title text-center">Unable To Login</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p class="text-center">The username you entered is invalid or never joined Wynncraft before.</p>
-                                <p class="text-center">Please try again.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Dismiss</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-                <script type="text/javascript" src="js/bootstrap.min.js"></script>
-                <script language="javascript" type="text/javascript">
-                    function login()
+            <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+            <script type="text/javascript" src="js/bootstrap.min.js"></script>
+            <script language="javascript" type="text/javascript">
+                function login()
+                {
+                    $(document).ready(function ()
                     {
-                        $(document).ready(function ()
+                        var text = document.getElementById("name").value;
+                        if(text==null || text=="")
                         {
-                            var text = document.getElementById("name").value;
-                            if(text==null || text=="")
+                            $("#backdefault").addClass("has-error");
+                            $("#name").focus();
+                        }
+                        else
+                        {
+                            $("#login").prop("disabled", true);
+                            $.post("http://wynn.jeremycheong.com/login.php", { "name" : $("#name").val() }, function(response)
                             {
-                                $("#backdefault").addClass("has-error");
-                                $("#name").focus();
-                            }
-                            else
-                            {
-                                $("#login").prop("disabled", true);
-                                $.post("http://wynn.jeremycheong.com/login.php", { "name" : $("#name").val() }, function(response)
+                                if(response=="Y")
                                 {
-                                    if(response=="Y")
-                                    {
-                                        location.reload();
-                                    }
-                                    else
-                                    {
-                                        $("#model").modal();
-                                        $("#backdefault").addClass("has-error");
-                                        $("#login").prop("disabled", false);
-                                    }
-                                });
-                            }
-                        });
-                    }
-                    $("#model").on('hidden.bs.modal', function (e) {
-                        $("#name").focus();
-                    });
-                    $("#name").keyup(function(e)
-                    {
-                        if (e.which == 13)
-                        {
-                            e.preventDefault();
-                            login();
-                            return;
+                                    location.reload();
+                                }
+                                else
+                                {
+                                    $("#model").modal();
+                                    $("#backdefault").addClass("has-error");
+                                    $("#login").prop("disabled", false);
+                                }
+                            });
                         }
+                    });
+                }
 
-                        if($("#backdefault").hasClass("has-error"))
-                        {
-                            $("#backdefault").removeClass("has-error");
-                        }
-                    });
-                </script>
-            </body>
-        </html>
+                $("#model").on('hidden.bs.modal', function(e)
+                {
+                    $("#name").focus();
+                });
+
+                $("#name").keyup(function(e)
+                {
+                    if(e.which==13)
+                    {
+                        e.preventDefault();
+                        login();
+                        return;
+                    }
+
+                    if($("#backdefault").hasClass("has-error"))
+                    {
+                        $("#backdefault").removeClass("has-error");
+                    }
+                });
+            </script>
+        </body>
+    </html>
 
     <?php
     if(isset($_GET['m']))
