@@ -50,7 +50,7 @@ if($playerData['current_server']=="null")
 <br>
 <br>
 <br>
-<img class="center-block" src="<?php echo "http://api.jeremycheong.com/minecraft.php?avatar=" . $username . "&size=4"; ?>" alt="avatar" width="128" height="128">
+<iframe style="display:block;margin:auto" src="http://api.wynncraft.com/skinviewer/<?php echo $username; ?>" title="skin" width="320" height="400" frameBorder="0"></iframe>
 <br>
 <div id="panel">
 <div class="row margin-panel">
