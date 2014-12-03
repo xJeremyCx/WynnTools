@@ -32,10 +32,6 @@ if($playerData['current_server']=="null")
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
-<noscript>
-    <p>Hello guest. JavaScript must be enabled to view the contents of this page. Please enable JavaScript and reload this page. If your browser doesn't support JavaScript, try to update your browser or use other browser.</p>
-    <style>div { display:none; }</style>
-</noscript>
 <nav id="navBar" class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-collapse collapse">
